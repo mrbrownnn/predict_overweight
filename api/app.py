@@ -1,14 +1,7 @@
-"""
-FastAPI Application for Obesity Level Prediction
-Author: AI Assistant
-Version: 1.0.0
-"""
-
 import os
 import logging
 from contextlib import asynccontextmanager
 from typing import Optional
-
 import numpy as np
 import xgboost as xgb
 import joblib
@@ -207,15 +200,12 @@ async def predict(input_data: PredictionInput):
         for key, value in input_dict.items():
             if hasattr(value, 'value'):
                 input_dict[key] = value.value
-        
-        # Calculate BMI for response
+    
+    
+    """        # Preprocess input and make prediction """
         bmi = preprocessor.calculate_bmi(input_dict['Height'], input_dict['Weight'])
         bmi_category = preprocessor.get_bmi_category(bmi)
-        
-        # Preprocess input
         processed_data = preprocessor.preprocess_input(input_dict)
-        
-        # Make prediction
         prediction_code = int(model.predict(processed_data)[0])
         prediction_label = preprocessor.decode_prediction(prediction_code)
         
@@ -223,7 +213,7 @@ async def predict(input_data: PredictionInput):
         probabilities_array = model.predict_proba(processed_data)[0]
         labels = preprocessor.get_all_labels()
         probabilities = {
-            label: round(float(prob), 4) 
+            label: round(float(prob), 4)
             for label, prob in zip(labels, probabilities_array)
         }
         

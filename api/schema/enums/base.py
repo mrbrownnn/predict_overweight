@@ -1,7 +1,5 @@
 from enum import Enum
 from typing import List
-
-
 class BaseEnum(str, Enum):
     @classmethod
     def values(cls) -> List[str]:
@@ -28,8 +26,6 @@ class BaseEnum(str, Enum):
     
     def __str__(self) -> str:
         return self.value
-
-
 class FrequencyEnum(BaseEnum):
     @classmethod
     def frequency_order(cls) -> List[str]:
